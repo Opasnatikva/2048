@@ -41,6 +41,15 @@ def get_row(grid, index):
     return grid[index]
 
 
+# Return a reversed order Line
+def reverse(line):
+    return line.reverse()
+
+
+#
+
+
+
 # Return a column of the board
 def get_column(grid, index):
     column = []
@@ -62,12 +71,14 @@ def empty_cells(list):
         empty_fields.append(list[index])
     return empty_fields
 
-# Check if current values of adjacent squares are equal
-def equal_values(grid, index):
-        if grid[index] == grid[index + 1]:
-            return True
-        else:
-            return False
+# Check if current values of two squares in a line are equal
+def equal_values(line):
+    for element in line:
+        for index in range(len(line[1:])):
+            if element != " " and element == line[index]:
+                return True
+            else:
+                return False
 
 
 # Return a list with the indexes of all empty spaces in a line of the grid
@@ -121,6 +132,7 @@ def take_input():
 board = generate_board(BOARD_SIZE)
 
 
+# Initial random number placements
 insert_random(random_empty_square(all_the_empty_squares(board)), input_value())
 
 
@@ -129,9 +141,22 @@ insert_random(random_empty_square(all_the_empty_squares(board)), input_value())
 
 print_grid(board)
 
+
+# Begin turn sequence
 while not board_full(board) and possible_moves(board):
     take_input()
+
+
     glue_values(board, get_empty_cells(all_the_empty_squares(board)))
     insert_random(random_empty_square(all_the_empty_squares(board)), input_value())
 
 print("Game Over!")
+
+
+def all to the left
+    take input
+    validate
+    extract lines in order
+    manipulate lines
+    write lines back to grid
+    insert new values in grid
