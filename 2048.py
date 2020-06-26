@@ -4,6 +4,10 @@ import random
 BOARD_SIZE = 4
 
 
+# Dictionary of the possible inputs
+directions = {'a' : 0, 'd' : 1, 'w' : 2,  's' : 3}
+
+
 # Generate the board
 def generate_board(size):
     daska = []
@@ -116,14 +120,6 @@ def insert_random(set, value):
     board[int(a[0])][int(a[1])] = value
 
 
-# Take Input and validate
-def take_input():
-    a = ""
-    while a != "a" and a != "w" and a != "d" and a != "s":
-        a = input("A for left. W for up. D for right. S for down.")
-    return a
-
-
 def move_left(grid):
     for index in range(len(grid)):
         grid[index] = shift_values(get_row(grid, index), get_empty_cells(get_row(grid, index)))
@@ -139,10 +135,20 @@ def high_score(grid):
     return score
 
 
+# Take input, validate based on dictionary keys, and return the corresponding value from the dictionary
+def move_direction(dictionary):
+    while True:
+        a = input("Type 'A' for left, 'W' for up, 'D' for right, or 'S' for down!")
+        for key, value in dictionary.items():
+            if a == key:
+                return value
+        print("Please enter a valid direction as stated below:")
+
+
 # Initiate Board
 board = generate_board(BOARD_SIZE)
 print(high_score(board))
-
+print_grid(board)
 
 # Initial random number placements
 insert_random(random_empty_square(all_the_empty_squares(board)), return_two_or_four())
@@ -151,11 +157,11 @@ insert_random(random_empty_square(all_the_empty_squares(board)), return_two_or_f
 
 # Begin turn sequence
 while moves_possible(board) and not board_full(board):
+    x = move_direction(directions)
 
-    print_grid(board)
-    move_left(board)
+
     insert_random(random_empty_square(all_the_empty_squares(board)), return_two_or_four())
     print(high_score(board))
-
+    print_grid(board)
 print_grid(board)
 print("Game Over!")
